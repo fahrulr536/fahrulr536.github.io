@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelayanan Tindak Lanjut Temuan Hasil Pemeriksaan APIP dan BPK RI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Calm/Cool gradient background */
+            background: linear-gradient(135deg, #A7D9D9, #C8E6C9, #D9EAD3, #E6F0E3, #F0F4EF, #F7F9F8); /* Softer, cooler tones */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #333; /* Default text color for readability */
+        }
+        .container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .section-content {
+            display: none; /* Hidden by default */
+        }
+        .section-content.active {
+            display: block; /* Show active section */
+        }
+        .nav-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        input[type="file"]::file-selector-button {
+            background-color: #64B5F6; /* Tailwind blue-400 */
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 0.5rem; /* rounded-md */
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        input[type="file"]::file-selector-button:hover {
+            background-color: #42A5F5; /* Tailwind blue-500 */
+        }
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+            max-width: 90%;
+            border: 2px solid #64B5F6;
+        }
+        .message-box button {
+            background-color: #64B5F6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .message-box button:hover {
+            background-color: #42A5F5;
+        }
+
+        /* Styles for the navigation cards on the landing page */
+        .nav-card {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 120px;
+            border: 2px solid transparent;
+        }
+        .nav-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border-color: #64B5F6; /* Highlight on hover */
+        }
+        .nav-card h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            color: #4A5568; /* Tailwind gray-700 */
+        }
+        .nav-card svg {
+            width: 3rem;
+            height: 3rem;
+            color: #4299E1; /* Tailwind blue-500 */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div id="messageBox" class="message-box">
+        <p id="messageText" class="text-lg font-semibold"></p>
+        <button onclick="hideMessageBox()">OK</button>
+    </div>
+
+    <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-4 rounded-xl shadow-lg mb-8 flex items-center justify-start">
+        <img src="https://placehold.co/40x40/FFFFFF/000000?text=Logo" alt="Logo Mamuju Tengah" class="h-10 w-10 rounded-full mr-3 border-2 border-white">
+        <h1 class="text-2xl font-bold text-shadow-md">Pelayanan Tindak Lanjut Temuan Hasil Pemeriksaan APIP dan BPK RI</h1>
+    </header>
+
+    <main class="container bg-white bg-opacity-90 p-6 sm:p-8 md:p-10 rounded-xl shadow-xl flex-grow">
+
+        <section id="landing" class="section-content active text-center py-12 px-4 bg-gradient-to-br from-blue-50 to-green-50 rounded-lg shadow-md">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-800 mb-6">Selamat Datang di Aplikasi Pelayanan Tindak Lanjut Hasil Temuan APIP dan BPK RI Kabupaten Mamuju Tengah</h2>
+            <div class="bg-white p-6 rounded-lg shadow-inner inline-block max-w-2xl text-left mb-8">
+                <h3 class="text-2xl font-bold text-teal-700 mb-4">Profil Inspektorat Kabupaten Mamuju Tengah</h3>
+                <p class="text-lg mb-2"><span class="font-semibold">Inspektur:</span> Dr. Sakaria K, S.Ag.,M.Pd.,MM.,CGCAE.,CIPA.,CGRS</p>
+                <p class="text-lg mb-2"><span class="font-semibold">Visi Inspektorat:</span></p>
+                <p class="italic text-gray-700 ml-4">"Terwujudnya Manajemen Pemerintahan Yang Baik Melalui Pengawasan Yang Profesional"</p>
+                <p class="text-lg mt-4 mb-2"><span class="font-semibold">Misi Inspektorat:</span></p>
+                <ul class="list-disc list-inside text-gray-700 ml-4">
+                    <li>Meningkatkan pengawasan internal secara berkala;</li>
+                    <li>Meningkatkan kualitas profesionalisme aparatur pengawasan;</li>
+                    <li>Meningkatkan sarana dan prasarana pengawasan.</li>
+                </ul>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
+                <div class="nav-card" onclick="showSection('dashboard')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    <h3>Dashboard</h3>
+                </div>
+                <div class="nav-card" onclick="showSection('layanan-main')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-open"><path d="M6 17a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.6.8L14 8h6a2 2 0 0 1 2 2v2"/><path d="M2 15a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2Z"/></svg>
+                    <h3>Layanan</h3>
+                </div>
+                <div class="nav-card" onclick="showSection('helpdesk')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-life-buoy"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m9.17 14.83-4.24 4.24"/><path d="m19.07 19.07-4.24-4.24"/><circle cx="12" cy="12" r="4"/></svg>
+                    <h3>Helpdesk</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="section-content p-6 sm:p-8 md:p-10 bg-gradient-to-br from-green-50 to-blue-50 rounded-lg shadow-md">
+            <div class="flex justify-end mb-4">
+                <button onclick="showSection('landing')" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">
+                    Kembali ke Halaman Depan
+                </button>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-green-700 mb-6 text-center">Dashboard Pelayanan Tindak Lanjut Temuan</h2>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-inner border-l-4 border-blue-600">
+                    <h3 class="text-2xl font-bold text-blue-700 mb-4">Profil Kantor Inspektorat</h3>
+                    <p class="text-gray-700 leading-relaxed">Inspektorat Kabupaten Mamuju Tengah adalah lembaga pengawasan internal pemerintah daerah yang bertugas membantu Kepala Daerah dalam melakukan pembinaan dan pengawasan terhadap pelaksanaan urusan pemerintahan di lingkungan Pemerintah Kabupaten Mamuju Tengah. Kami berkomitmen untuk mewujudkan tata kelola pemerintahan yang baik, transparan, dan akuntabel.</p>
+                    <p class="text-lg mt-4"><span class="font-semibold">Inspektur:</span> Dr. Sakaria K, S.Ag.,M.Pd.,MM.,CGCAE.,CIPA.,CGRS</p>
+                    <p class="text-lg mt-2"><span class="font-semibold">Visi:</span> "Terwujudnya Manajemen Pemerintahan Yang Baik Melalui Pengawasan Yang Profesional"</p>
+                    <p class="text-lg mt-2"><span class="font-semibold">Misi:</span></p>
+                    <ul class="list-disc list-inside text-gray-700 ml-4">
+                        <li>Meningkatkan pengawasan internal secara berkala;</li>
+                        <li>Meningkatkan kualitas profesionalisme aparatur pengawasan;</li>
+                        <li>Meningkatkan sarana dan prasarana pengawasan.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-inner border-l-4 border-teal-600">
+                    <h3 class="text-2xl font-bold text-teal-700 mb-4">Penjelasan Mengenai Temuan</h3>
+                    <div class="mb-6">
+                        <h4 class="text-xl font-semibold text-gray-800 mb-2">Apa itu Temuan APIP?</h4>
+                        <p class="text-gray-700 leading-relaxed">Temuan APIP (Aparat Pengawasan Intern Pemerintah) adalah hasil pemeriksaan atau audit yang dilakukan oleh unit pengawasan internal di lingkungan pemerintah daerah. Temuan ini bertujuan untuk mengidentifikasi kelemahan, penyimpangan, atau ketidakpatuhan dalam pengelolaan keuangan, aset, dan pelaksanaan program/kegiatan. Tindak lanjut temuan APIP berfokus pada perbaikan internal untuk meningkatkan efisiensi dan efektivitas kinerja OPD.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-2">Apa itu Temuan BPK RI?</h4>
+                        <p class="text-gray-700 leading-relaxed">Temuan BPK RI (Badan Pemeriksa Keuangan Republik Indonesia) adalah hasil pemeriksaan eksternal yang dilakukan oleh BPK terhadap pengelolaan dan tanggung jawab keuangan negara/daerah. Temuan BPK RI memiliki kekuatan hukum dan bersifat mengikat, serta dapat berimplikasi pada aspek hukum jika tidak ditindaklanjuti. Tindak lanjut temuan BPK RI sangat krusial untuk memastikan akuntabilitas dan transparansi penggunaan anggaran publik.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-inner border-l-4 border-purple-600 mt-8">
+                <h3 class="text-2xl font-bold text-purple-700 mb-4">Penjelasan Fitur Layanan</h3>
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Fitur Tindak Lanjut Hasil Temuan APIP</h4>
+                    <p class="text-gray-700 leading-relaxed">Fitur ini disediakan bagi Organisasi Perangkat Daerah (OPD) untuk melaporkan dan memantau progres tindak lanjut atas temuan yang berasal dari hasil audit internal APIP. Pengguna dapat mengisi detail temuan, besaran pengembalian (jika ada), serta mengunggah bukti dukung pengembalian untuk memastikan setiap rekomendasi APIP telah ditindaklanjuti dengan baik.</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold text-gray-800 mb-2">Fitur Tindak Lanjut Hasil Temuan BPK RI</h4>
+                    <p class="text-gray-700 leading-relaxed">Fitur ini memungkinkan OPD untuk melaporkan dan memantau progres tindak lanjut atas temuan yang berasal dari hasil pemeriksaan eksternal BPK RI. Penting bagi OPD untuk segera menindaklanjuti rekomendasi BPK RI dan mengunggah bukti dukung yang relevan melalui fitur ini, demi menjaga akuntabilitas dan kepatuhan terhadap peraturan perundang-undangan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="layanan-main" class="section-content p-6 sm:p-8 md:p-10 bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg shadow-md text-center">
+            <div class="flex justify-end mb-4">
+                <button onclick="showSection('landing')" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">
+                    Kembali ke Halaman Depan
+                </button>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-purple-700 mb-8">Pilih Jenis Layanan Tindak Lanjut</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <div class="nav-card bg-gradient-to-br from-blue-100 to-indigo-100 border-blue-400 hover:border-blue-600" onclick="showSection('layanan-apip')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                    <h3 class="text-blue-800">Tindak Lanjut Temuan APIP</h3>
+                </div>
+                <div class="nav-card bg-gradient-to-br from-green-100 to-teal-100 border-green-400 hover:border-green-600" onclick="showSection('layanan-bpk')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 2h4"/><path d="M8 2h4"/><path d="M8 10h8"/><path d="M8 14h8"/><path d="M8 18h8"/></svg>
+                    <h3 class="text-teal-800">Tindak Lanjut Temuan BPK RI</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="layanan-apip" class="section-content p-6 sm:p-8 md:p-10 bg-gradient-to-br from-blue-50 to-teal-50 rounded-lg shadow-md">
+            <div class="flex justify-end mb-4">
+                <button onclick="showSection('landing')" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">
+                    Kembali ke Halaman Depan
+                </button>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-700 mb-6 text-center">Formulir Tindak Lanjut Hasil Temuan APIP</h2>
+            <form id="form-apip" class="bg-white p-6 rounded-lg shadow-inner max-w-3xl mx-auto">
+                <div class="mb-4">
+                    <label for="apip-nama-pengisi" class="block text-gray-700 text-lg font-semibold mb-2">Nama Pengisi:</label>
+                    <input type="text" id="apip-nama-pengisi" name="namaPengisi" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Masukkan Nama Lengkap" required>
+                </div>
+                <div class="mb-4">
+                    <label for="apip-waktu" class="block text-gray-700 text-lg font-semibold mb-2">Waktu:</label>
+                    <input type="datetime-local" id="apip-waktu" name="waktu" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label for="apip-opd" class="block text-gray-700 text-lg font-semibold mb-2">OPD:</label>
+                    <input type="text" id="apip-opd" name="opd" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Masukkan Nama OPD" required>
+                </div>
+                <div class="mb-4">
+                    <label for="apip-nama-temuan" class="block text-gray-700 text-lg font-semibold mb-2">Nama Temuan:</label>
+                    <textarea id="apip-nama-temuan" name="namaTemuan" rows="3" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Jelaskan nama temuan secara singkat" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="apip-besaran-temuan" class="block text-gray-700 text-lg font-semibold mb-2">Besaran Temuan (Rp.):</label>
+                    <input type="number" id="apip-besaran-temuan" name="besaranTemuan" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Cth: 1000000" required>
+                </div>
+                <div class="mb-4">
+                    <label for="apip-besaran-pengembalian" class="block text-gray-700 text-lg font-semibold mb-2">Besaran Pengembalian (Rp.):</label>
+                    <input type="number" id="apip-besaran-pengembalian" name="besaranPengembalian" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Cth: 500000" required>
+                </div>
+                <div class="mb-6">
+                    <label for="apip-bukti-dukung" class="block text-gray-700 text-lg font-semibold mb-2">Bukti Dukung Pengembalian (Gambar):</label>
+                    <input type="file" id="apip-bukti-dukung" name="buktiDukung" accept="image/*" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" required>
+                    <p class="text-sm text-gray-500 mt-1">Unggah gambar bukti transfer/setor atau dokumen pendukung lainnya.</p>
+                </div>
+                <div class="flex items-center justify-center">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                        Kirim Data APIP
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section id="layanan-bpk" class="section-content p-6 sm:p-8 md:p-10 bg-gradient-to-br from-green-50 to-cyan-50 rounded-lg shadow-md">
+            <div class="flex justify-end mb-4">
+                <button onclick="showSection('landing')" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">
+                    Kembali ke Halaman Depan
+                </button>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-teal-700 mb-6 text-center">Formulir Tindak Lanjut Hasil Temuan BPK RI</h2>
+            <form id="form-bpk" class="bg-white p-6 rounded-lg shadow-inner max-w-3xl mx-auto">
+                <div class="mb-4">
+                    <label for="bpk-nama-pengisi" class="block text-gray-700 text-lg font-semibold mb-2">Nama Pengisi:</label>
+                    <input type="text" id="bpk-nama-pengisi" name="namaPengisi" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Masukkan Nama Lengkap" required>
+                </div>
+                <div class="mb-4">
+                    <label for="bpk-waktu" class="block text-gray-700 text-lg font-semibold mb-2">Waktu:</label>
+                    <input type="datetime-local" id="bpk-waktu" name="waktu" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label for="bpk-opd" class="block text-gray-700 text-lg font-semibold mb-2">OPD:</label>
+                    <input type="text" id="bpk-opd" name="opd" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Masukkan Nama OPD" required>
+                </div>
+                <div class="mb-4">
+                    <label for="bpk-nama-temuan" class="block text-gray-700 text-lg font-semibold mb-2">Nama Temuan:</label>
+                    <textarea id="bpk-nama-temuan" name="namaTemuan" rows="3" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Jelaskan nama temuan secara singkat" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="bpk-besaran-temuan" class="block text-gray-700 text-lg font-semibold mb-2">Besaran Temuan (Rp.):</label>
+                    <input type="number" id="bpk-besaran-temuan" name="besaranTemuan" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Cth: 1000000" required>
+                </div>
+                <div class="mb-4">
+                    <label for="bpk-besaran-pengembalian" class="block text-gray-700 text-lg font-semibold mb-2">Besaran Pengembalian (Rp.):</label>
+                    <input type="number" id="bpk-besaran-pengembalian" name="besaranPengembalian" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" placeholder="Cth: 500000" required>
+                </div>
+                <div class="mb-6">
+                    <label for="bpk-bukti-dukung" class="block text-gray-700 text-lg font-semibold mb-2">Bukti Dukung Pengembalian (Gambar):</label>
+                    <input type="file" id="bpk-bukti-dukung" name="buktiDukung" accept="image/*" class="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" required>
+                    <p class="text-sm text-gray-500 mt-1">Unggah gambar bukti transfer/setor atau dokumen pendukung lainnya.</p>
+                </div>
+                <div class="flex items-center justify-center">
+                    <button type="submit" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                        Kirim Data BPK RI
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section id="helpdesk" class="section-content p-6 sm:p-8 md:p-10 bg-gradient-to-br from-gray-50 to-blue-50 rounded-lg shadow-md text-center">
+            <div class="flex justify-end mb-4">
+                <button onclick="showSection('landing')" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out">
+                    Kembali ke Halaman Depan
+                </button>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-blue-700 mb-6">Pusat Bantuan (Helpdesk)</h2>
+            <div class="bg-white p-6 rounded-lg shadow-inner inline-block max-w-md">
+                <p class="text-lg mb-4 text-gray-700">Jika Anda memiliki pertanyaan atau membutuhkan bantuan terkait penggunaan aplikasi ini, silakan hubungi:</p>
+                <p class="text-2xl font-bold text-indigo-800 mb-2">Marhaban Ramadhan</p>
+                <p class="text-xl font-semibold text-green-600">No. Telepon: 085240516045</p>
+                <p class="text-gray-600 mt-4">Kami siap membantu Anda.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Function to show message box
+        function showMessageBox(message) {
+            document.getElementById('messageText').innerText = message;
+            document.getElementById('messageBox').style.display = 'block';
+        }
+
+        // Function to hide message box
+        function hideMessageBox() {
+            document.getElementById('messageBox').style.display = 'none';
+        }
+
+        // JavaScript for section switching
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Show the selected section
+            document.getElementById(sectionId).classList.add('active');
+            // Scroll to top of the page when navigating
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Set current time for datetime-local inputs
+        window.onload = function() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // Adjust for timezone
+            const formattedDateTime = now.toISOString().slice(0, 16); // Format YYYY-MM-DDTHH:MM
+            document.getElementById('apip-waktu').value = formattedDateTime;
+            document.getElementById('bpk-waktu').value = formattedDateTime;
+
+            // Initialize Lucide icons (if any are used directly in HTML)
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        };
+
+        // --- Form Submission Logic ---
+        // IMPORTANT: This is a client-side placeholder.
+        // You NEED to create a Google Apps Script Web App to receive this data.
+        // The Google Apps Script URL will replace 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL'
+
+        const GOOGLE_APPS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL'; // Ganti dengan URL Google Apps Script Anda
+
+        async function submitFormData(event, formType) {
+            event.preventDefault(); // Prevent default form submission
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = {};
+
+            // Convert FormData to a plain object for JSON submission
+            for (let [key, value] of formData.entries()) {
+                if (key === 'buktiDukung') {
+                    // For file input, we'll handle it separately or send a placeholder link
+                    // In a real scenario, you'd upload this file to Google Drive
+                    // via Apps Script and send back its URL.
+                    data[key] = value.name ? `File: ${value.name}` : 'Tidak ada file diunggah';
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // You might want to add client-side validation here
+            if (!form.checkValidity()) {
+                showMessageBox('Mohon lengkapi semua kolom yang wajib diisi.');
+                return;
+            }
+
+            // Simulate sending data (replace with actual fetch to Apps Script)
+            console.log(`Mengirim data ${formType}:`, data);
+            showMessageBox(`Mengirim data ${formType}...`);
+
+            try {
+                // Example of how to send data to Google Apps Script
+                // Note: File upload directly via fetch to Apps Script is complex.
+                // For files, you'd typically send a base64 encoded string or
+                // handle it in a more sophisticated way on the Apps Script side (e.g., using Drive API).
+                // For simplicity, this example sends other form data as JSON.
+
+                const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Required for simple POST from browser to Apps Script
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: formType, // Identify which form it came from
+                        payload: data
+                    }),
+                });
+
+                // Since mode 'no-cors' is used, response.ok will always be true.
+                // You need to check the success/failure from the Apps Script's response content (if it sends any).
+                // For this example, we'll assume success after the fetch call.
+                showMessageBox(`Data ${formType} berhasil dikirim!`);
+                form.reset(); // Clear the form after successful submission
+                // Reset datetime-local input after reset
+                const now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                const formattedDateTime = now.toISOString().slice(0, 16);
+                if (formType === 'APIP') {
+                    document.getElementById('apip-waktu').value = formattedDateTime;
+                } else if (formType === 'BPK RI') {
+                    document.getElementById('bpk-waktu').value = formattedDateTime;
+                }
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                showMessageBox(`Gagal mengirim data ${formType}. Error: ${error.message}. Cek konsol untuk detail.`);
+            }
+        }
+
+        // Attach event listeners to forms
+        document.getElementById('form-apip').addEventListener('submit', (e) => submitFormData(e, 'APIP'));
+        document.getElementById('form-bpk').addEventListener('submit', (e) => submitFormData(e, 'BPK RI'));
+
+        // Initial section display
+        showSection('landing');
+
+    </script>
+</body>
+</html>
